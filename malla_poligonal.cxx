@@ -129,10 +129,7 @@ Figura MallaPoligonal::envolventeObjeto(const std::string &nombre_objeto) {
     Figura *figura = getFigura(nombre_objeto);
     if (figura) {
       std::deque<Vertice> verticesEnvolvente = figura->envolventeObjeto();
-        std::string nuevoNombre="env_"+nombre_objeto;
-        Figura f(nuevoNombre);
-        f.agregarVertice(verticesEnvolvente[0]);
-        f.agregarVertice(verticesEnvolvente[1]);
+      Figura f=Figura::construirCajaEnvolvente(verticesEnvolvente, nombre_objeto);
         return f;
         
     }else{
@@ -140,6 +137,7 @@ Figura MallaPoligonal::envolventeObjeto(const std::string &nombre_objeto) {
     }
    return Figura(" "); //retorna una figura vacía
 }
+
 
 void MallaPoligonal::descargarObjeto(const std::string &nombre_objeto) {
     bool fig=figuraExiste(nombre_objeto);

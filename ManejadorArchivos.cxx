@@ -105,13 +105,16 @@ void ManejadorArchivos::escribirArchivoObjeto(Figura * figura, const std::string
   }
   
   for(; itCara!=caras.end(); itCara++){
+    //std::cout<<itCara->getNVertices()<<std::endl;
     salida<<itCara->getNVertices()<<" ";
     verticesCara=itCara->getVertices();
+    
     for(int i=0; i<itCara->getNVertices(); i++){
       salida<<verticesCara[i]<<" ";
     }
     salida<<std::endl;
-    salida<<"-1";
+    
   }
+  salida<<"-1";
   
 }

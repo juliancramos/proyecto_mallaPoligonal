@@ -28,6 +28,7 @@ class Figura{
 
         std::deque<Vertice> envolventeObjeto();//En la posición 0 se encuentra el vertice mayor y en la 1 el menor
 
+        static Figura construirCajaEnvolvente(const std::deque<Vertice>& vertices, const std::string& nombreObjeto);
 };
 #endif
 

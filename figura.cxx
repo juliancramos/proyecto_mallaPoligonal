@@ -52,6 +52,43 @@ std::deque<Vertice> Figura::envolventeObjeto(){
     return envolvente;
 }
 
+Figura Figura::construirCajaEnvolvente(const std::deque<Vertice>& vertices, const std::string& nombreObjeto){
+    int mayorX=vertices[0].getX(), menorX=vertices[1].getX();
+    int mayorY=vertices[0].getY(), menorY=vertices[1].getY();
+    int mayorZ=vertices[0].getZ(), menorZ=vertices[1].getZ();
+
+    std::string nuevoNombre="env_"+nombreObjeto;
+    Figura f(nuevoNombre);
+    f.agregarVertice(Vertice(menorX, menorY, menorZ, 0));
+    f.agregarVertice(Vertice(mayorX, menorY, menorZ, 1));
+    f.agregarVertice(Vertice(menorX, mayorY, menorZ, 2));
+    f.agregarVertice(Vertice(mayorX, mayorY, menorZ, 3));
+    f.agregarVertice(Vertice(menorX, menorY, mayorZ, 4));
+    f.agregarVertice(Vertice(mayorX, menorY, mayorZ, 5));
+    f.agregarVertice(Vertice(menorX, mayorY, mayorZ, 6));
+    f.agregarVertice(Vertice(mayorX, mayorY, mayorZ, 7));
+
+    auto agregarCara = [&](int v1, int v2, int v3, int v4) {
+        Cara cara;
+        cara.agregarVertice(v1);
+        cara.agregarVertice(v2);
+        cara.agregarVertice(v3);
+        cara.agregarVertice(v4);
+        f.agregarCara(cara);
+    };
+
+    // Agregar caras
+    agregarCara(0, 1, 3, 2); // Cara inferior
+    agregarCara(4, 5, 7, 6); // Cara superior
+    agregarCara(0, 1, 5, 4); // Cara frontal
+    agregarCara(2, 3, 7, 6); // Cara trasera
+    agregarCara(0, 2, 6, 4); // Cara izquierda
+    agregarCara(1, 3, 7, 5); // Cara derecha
+    
+    return f;
+}
+
+
 int Figura:: buscarIndiceVertice(float x, float y, float z){
     std::deque<Vertice>::iterator it=vertices.begin();
     for(; it!= vertices.end(); it++){

@@ -1,3 +1,0 @@
-TAD Malla poligonal
-    Estado:
-        figuras
