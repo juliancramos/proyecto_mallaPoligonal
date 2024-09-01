@@ -3,3 +3,6 @@ envolventeCube.txt
 envolventePyramid.txt
 salidaCubo.txt
 p
+*.txt
+*.json
+.vscode/settings.json

@@ -81,44 +81,65 @@ void MallaPoligonal::envolvente() {
         std::deque<Vertice>envolventeFigura;//Se guardan los valores del calculo del envolvente para cada figura. En la casilla 0 el vertice mayor y en la 1 el menor
         std::deque<Figura>::iterator it=figuras.begin();
         envolventeFigura=figuras[0].envolventeObjeto();
+             
         int mayorX = envolventeFigura[0].getX(), menorX = envolventeFigura[1].getX();
         int mayorY = envolventeFigura[0].getY(), menorY = envolventeFigura[1].getY();
         int mayorZ = envolventeFigura[0].getZ(), menorZ = envolventeFigura[1].getZ();
+        // std::cout<<"Mayor x: "<<mayorX<<std::endl;
+        // std::cout<<"Mayor y: "<<mayorY<<std::endl;
+        // std::cout<<"Mayor z: "<<mayorZ<<std::endl;
+        // std::cout<<"menor x: "<<menorX<<std::endl;
+        // std::cout<<"menor y: "<<menorY<<std::endl;
+        // std::cout<<"menor z: "<<menorZ<<std::endl;
+
 
         for(; it!=figuras.end(); it++){
             envolventeFigura=it->envolventeObjeto();
             //Proceso para calcular cada mayor
             if(envolventeFigura[0].getX()>mayorX){
                 mayorX=envolventeFigura[0].getX();    
+        std::cout<<"Mayor x: "<<mayorX<<std::endl;
+                
             }
             if(envolventeFigura[0].getY()>mayorY){
                 mayorY=envolventeFigura[0].getY();
+        std::cout<<"Mayor y: "<<mayorY<<std::endl;
+
             }
             if(envolventeFigura[0].getZ()>mayorZ){
                 mayorZ=envolventeFigura[0].getZ();
+        std::cout<<"Mayor z: "<<mayorZ<<std::endl;
+
             }
             //Proceso para calcular cada menor
             if(envolventeFigura[1].getX()<menorX){
                 menorX=envolventeFigura[1].getX();
+        std::cout<<"menor x: "<<menorX<<std::endl;
+
             }
             if(envolventeFigura[1].getY()<menorY){
                 menorY=envolventeFigura[1].getY();
+        std::cout<<"menor y: "<<menorY<<std::endl;
+
             }
             if(envolventeFigura[1].getZ()<menorZ){
                 menorZ=envolventeFigura[1].getZ();
+        std::cout<<"menor z: "<<menorZ<<std::endl;
+
             }
         }
         Vertice vMayor(mayorX, mayorY, mayorZ, 0);
         Vertice vMenor(menorX, menorY, menorZ, 1);
-        //std::cout<<vMayor.getX()<<" "<<vMayor.getY()<<" "<<vMayor.getZ()<<std::endl;
-        //std::cout<<vMenor.getX()<<" "<<vMenor.getY()<<" "<<vMenor.getZ()<<std::endl;
         std::deque<Vertice> envolvente;
+        //Los vertices mayor y menor de toda la malla quedan almacenados
         envolvente.push_back(vMayor);
         envolvente.push_back(vMenor);
-        Figura f("env_global");
-        f.agregarVertice(envolvente[0]);
-        f.agregarVertice(envolvente[1]);
+        Figura f=Figura::construirCajaEnvolvente(envolvente,"global");
         agregarFigura(f);
+        // Figura f("env_global");
+        // f.agregarVertice(envolvente[0]);
+        // f.agregarVertice(envolvente[1]);
+        
     }else{
         throw std::runtime_error("Ningun objeto ha sido cargado en memoria");
     }

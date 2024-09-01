@@ -22,8 +22,9 @@ std::deque<Vertice>& Figura::getVertices(){
 }
 
 std::deque<Vertice> Figura::envolventeObjeto(){
-    int mayorX, menorX, mayorY, menorY, mayorZ, menorZ;
     std::deque<Vertice>::iterator it=vertices.begin();
+    //Se le asigna de una vez algun valor existente para que no se arrastre basura
+    int mayorX=it->getX(), menorX=it->getX(), mayorY=it->getY(), menorY=it->getY(), mayorZ=it->getZ(), menorZ=it->getZ();
     for(; it!=vertices.end(); it++){
         if(it->getX()>mayorX){
             mayorX=it->getX();
