@@ -33,3 +33,12 @@ void Vertice::setY(float y) {
 void Vertice::setZ(float z) {
     this->z = z;
 }
+
+bool Vertice::operator==(const Vertice& v) const {
+        return (this->x == v.x && this->y == v.y && this->z == v.z);
+}
+
+std::ostream& operator<<(std::ostream& os, const Vertice& v) {
+    os << "Vertice: (" << v.x << ", " << v.y << ", " << v.z << ") - Indice: " << v.indice;
+    return os;
+}
