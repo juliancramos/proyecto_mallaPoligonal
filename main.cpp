@@ -5,6 +5,8 @@
 #include "figura.h"
 #include "malla_poligonal.h"
 #include "vertice.h"
+#include "ArbolKD.h"
+#include "NodoKD.h"
 #include <iostream>
 #include <string>
 #include <vector>
