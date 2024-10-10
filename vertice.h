@@ -2,6 +2,7 @@
 #define VERTICE_H
 #include <deque>
 #include <ostream>
+#include <cmath>
 
 class Vertice{
     private:
@@ -29,6 +30,12 @@ class Vertice{
         bool operator==(const Vertice& v) const;
         friend std::ostream& operator<<(std::ostream& os, const Vertice& v);
         float getCoord(int dimension) const;
+
+        float calcularDistancia(float x2, float y2, float z2) const;
+        
+        Vertice& operator=(const Vertice& other);
+
+
 
         
 };

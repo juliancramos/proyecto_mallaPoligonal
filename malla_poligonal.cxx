@@ -124,9 +124,7 @@ void MallaPoligonal::envolvente() {
         envolvente.push_back(vMenor);
         Figura f=Figura::construirCajaEnvolvente(envolvente,"global");
         agregarFigura(f);
-        // Figura f("env_global");
-        // f.agregarVertice(envolvente[0]);
-        // f.agregarVertice(envolvente[1]);
+        
         
     }else{
         throw std::runtime_error("Ningun objeto ha sido cargado en memoria");
@@ -168,6 +166,23 @@ void MallaPoligonal::guardarObjeto(const std::string &nombre_objeto, const std::
         throw std::runtime_error("El objeto \""+nombre_objeto+"\" no ha sido cargado en memoria");
     }
 }
+
+Vertice MallaPoligonal::verticeCercanoObjeto(float x, float y, float z, const std::string& nombreFigura) {
+    Figura* figura = getFigura(nombreFigura);
+
+    if (!figura) {
+        std::cerr << "Figura no encontrada" << std::endl;
+        return Vertice();  //Vertice por defecto con indice -1
+    }
+
+    return figura->verticeCercano(x, y, z);
+}
+
+// Vertice MallaPoligonal::verticeCercanoObjeto(float px, float py, float pz){
+
+// }
+
+
 
 
 

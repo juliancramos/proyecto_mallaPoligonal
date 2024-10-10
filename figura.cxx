@@ -105,16 +105,24 @@ int Figura::getNVertices() const{
 
 
 int Figura::getNAristasFigura() const {
-    /*
-    Se usa la relación de Euler para los poliedros, la cual dice:
-    V−E+F=2 con V:nVertices, E: nAristas y F:nCaras
-    entonces E=V+F-2
-    */
+    
     int nVertices, nAristas, nCaras;
     nVertices=getNVertices();
     nCaras=getNCaras();
     nAristas=nVertices+nCaras-2;
     return nAristas;
 }
+
+
+Vertice Figura::verticeCercano(float px, float py, float pz) {
+    if (!arbolVertices || arbolVertices->esVacio()) {
+        std::cerr << "El árbol KD de la figura está vacío." << std::endl;
+        return Vertice();  //Vertice por defecto
+    }
+    
+    float mejorDistancia = -1;  //Inicia con valor inválido 
+    return arbolVertices->verticeCercano(px, py, pz, 0, mejorDistancia);
+}
+
     
     

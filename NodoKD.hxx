@@ -207,3 +207,58 @@ void NodoKD<T>::nivelOrden() {
     }
 }
 
+
+// template<class T>
+// T NodoKD<T>::verticeCercano(float px, float py, float pz, int nivel, float& mejorDistancia) {
+//     // Calcular la distancia euclidiana entre el punto objetivo y el vértice actual
+//     float distanciaActual = dato.calcularDistancia(px, py, pz);
+//     T mejorVertice = dato;
+
+//     // Si la distancia es 0, retorna inmediatamente este vértice
+//     if (distanciaActual == 0) {
+//         mejorDistancia = 0;
+//         return dato;  // Retorna el vértice exacto
+//     }
+
+//     // Si la distancia actual es mejor, actualiza el mejor vértice
+//     if (mejorDistancia < 0 || distanciaActual < mejorDistancia) {
+//         mejorDistancia = distanciaActual;
+//         mejorVertice = dato;
+//     }
+
+//     // Lógica para elegir qué hijo explorar
+//     int eje = nivel % 3;  // 0:x 1:y 2:z
+//     NodoKD* ladoPrimario = nullptr;
+//     NodoKD* ladoSecundario = nullptr;
+
+//     if ((eje == 0 && px < dato.getX()) || 
+//         (eje == 1 && py < dato.getY()) || 
+//         (eje == 2 && pz < dato.getZ())) {
+//         ladoPrimario = hijoIzq;
+//         ladoSecundario = hijoDer;
+//     } else {
+//         ladoPrimario = hijoDer;
+//         ladoSecundario = hijoIzq;
+//     }
+
+//     // Explora el lado primario primero
+//     if (ladoPrimario) {
+//         T candidatoPrimario = ladoPrimario->verticeCercano(px, py, pz, nivel + 1, mejorDistancia);
+//         if (candidatoPrimario.calcularDistancia(px, py, pz) < mejorDistancia) {
+//             mejorVertice = candidatoPrimario;
+//         }
+//     }
+
+//     // Luego, verifica si es necesario explorar el lado secundario
+//     float diferencia = (eje == 0) ? px - dato.getX() :
+//                        (eje == 1) ? py - dato.getY() : pz - dato.getZ();
+
+//     if (fabs(diferencia) < mejorDistancia && ladoSecundario) {
+//         T candidatoSecundario = ladoSecundario->verticeCercano(px, py, pz, nivel + 1, mejorDistancia);
+//         if (candidatoSecundario.calcularDistancia(px, py, pz) < mejorDistancia) {
+//             mejorVertice = candidatoSecundario;
+//         }
+//     }
+
+//     return mejorVertice;
+// }

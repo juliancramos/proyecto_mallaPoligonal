@@ -110,6 +110,7 @@ int main() {
       } else {
         cout << "El comando \"" << comando << "\" no es válido" << endl;
       }
+
     } else if (partes.size() == 3) {
       if (comando == "guardar") {
         try {
@@ -128,17 +129,34 @@ int main() {
       }
     } else if (partes.size() == 4) {
       if (comando == "v_cercano") {
-        //malla.v_cercano(stoi(partes[1]), stoi(partes[2]), stoi(partes[3]));
+        // Figura fig= malla.verticeCercano(stof(partes[1]), stof(partes[2]), stof(partes[3]));
+        // if(fig!=nullptr){
+
+        // }else{
+        //   std::cerr << "No hay objetos cargados en memoria\n" << std::endl;
+        // }
       } else if (comando == "ruta_corta") {
-       // malla.ruta_corta(stoi(partes[1]), stoi(partes[2]), partes[3]);
+       // malla.ruta_corta(stof(partes[1]), stof(partes[2]), partes[3]);
       } else {
         cout << "El comando \"" << comando << "\" no es válido" << endl;
       }
     } else if (partes.size() == 5) {
       if (comando == "v_cercano") {
-        // malla.v_cercano_objeto(stoi(partes[1]), stoi(partes[2]),
-        //                        stoi(partes[3]), partes[4]);
-      } else {
+        float x = stof(partes[1]);
+        float y = stof(partes[2]);
+        float z = stof(partes[3]);
+        std::string nombreFigura = partes[4];
+
+        Vertice v = malla.verticeCercanoObjeto(x, y, z, nombreFigura);
+        
+        if (v.getIndice() != -1) {//Es valido si el indice !=-1
+            std::cout << "El vertice "<<v.getIndice()<<" ("
+                      << v.getX() << ", " << v.getY() << ", " << v.getZ()<<") del objeto "<<nombreFigura
+                      <<", es el más cercano al punto dado" << std::endl;
+        } else {
+            std::cout << "No se encontró ningún vértice cercano." << std::endl;
+        }
+    }else {
         cout << "El comando \"" << comando << "\" no es válido" << endl;
       }
     } else {

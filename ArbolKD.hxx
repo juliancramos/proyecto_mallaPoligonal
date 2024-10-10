@@ -160,3 +160,55 @@ T ArbolKD<T>::encontrarMinimo() {
 }
 
 
+
+template<class T>
+T ArbolKD<T>::verticeCercano(float px, float py, float pz, int nivel, float& mejorDistancia) {
+    if (!raiz) {
+        return T(); // Vertice vacío
+    }
+
+    NodoKD<T>* nodoActual = raiz;
+    float distanciaActual = nodoActual->getDato().calcularDistancia(px, py, pz);
+    
+    T mejorVertice = nodoActual->getDato();
+    mejorDistancia = distanciaActual;
+
+    // Función recursiva para buscar en el árbol
+    buscarVerticeCercano(nodoActual, px, py, pz, nivel, mejorVertice, mejorDistancia);
+
+    return mejorVertice;
+}
+
+template<class T>
+void ArbolKD<T>::buscarVerticeCercano(NodoKD<T>* nodo, float px, float py, float pz, int nivel, T& mejorVertice, float& mejorDistancia) {
+    if (!nodo) return;
+
+    // Calcular la distancia entre el punto dado y el nodo actual
+    float distancia = nodo->getDato().calcularDistancia(px, py, pz);
+
+    if (distancia < mejorDistancia) {
+        mejorDistancia = distancia;
+        mejorVertice = nodo->getDato();
+    }
+
+    // Se mira la dimensión actual
+    int dimension = nivel % 3;
+    float coordenadaNodo = nodo->getDato().getCoord(dimension);
+    float coordenadaPunto = (dimension == 0) ? px : (dimension == 1) ? py : pz;
+
+    //Se va aun subarbol u otro dependiendo de la coordenada
+    NodoKD<T>* primeraOpcion = (coordenadaPunto < coordenadaNodo) ? nodo->getHijoIzq() : nodo->getHijoDer();
+    NodoKD<T>* segundaOpcion = (coordenadaPunto < coordenadaNodo) ? nodo->getHijoDer() : nodo->getHijoIzq();
+
+    buscarVerticeCercano(primeraOpcion, px, py, pz, nivel + 1, mejorVertice, mejorDistancia);
+
+    // Verificar si necesitamos explorar el otro lado del árbol (lado secundario)
+    if (std::abs(coordenadaPunto - coordenadaNodo) < mejorDistancia) {
+        buscarVerticeCercano(segundaOpcion, px, py, pz, nivel + 1, mejorVertice, mejorDistancia);
+    }
+}
+
+
+
+
+

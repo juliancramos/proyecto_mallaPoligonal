@@ -30,6 +30,8 @@ public:
     void inOrden();
     void posOrden();
     void nivelOrden();
+
+    T verticeCercano(float px, float py, float pz, int nivel, float& mejorDistancia);
     
 
 

@@ -24,13 +24,15 @@ public:
   void v_cercanos_caja(const std::string &nombre_objeto);
 
   // Funciones complementarias
-  Figura *getFigura(
-      const std::string &nombreFigura); // Retorna una figura por su nombre
+  Figura *getFigura(const std::string &nombreFigura); // Retorna una figura por su nombre
   bool figuraExiste(const std::string &nombreFigura);
   int getPosicionFigura(const std::string &nombreFigura);
   std::deque<Figura> getFiguras() const;
   void eliminarFigura(int posicion);
   void agregarFigura(const Figura &figura);
+
+  Vertice verticeCercanoObjeto(float px, float py, float pz, const std::string&nombreObjeto);
+  // Vertice verticeCercanoObjeto(float px, float py, float pz);
 
   
 };

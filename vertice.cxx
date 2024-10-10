@@ -34,9 +34,7 @@ void Vertice::setZ(float z) {
     this->z = z;
 }
 
-bool Vertice::operator==(const Vertice& v) const {
-        return (this->x == v.x && this->y == v.y && this->z == v.z);
-}
+
 
 std::ostream& operator<<(std::ostream& os, const Vertice& v) {
     os << "Vertice: (" << v.x << ", " << v.y << ", " << v.z << ") - Indice: " << v.indice;
@@ -51,3 +49,27 @@ float Vertice::getCoord(int dimension) const {
         default: throw std::out_of_range("Dimensión fuera de rango");
     }
 }
+
+float Vertice::calcularDistancia(float x2, float y2, float z2) const {
+    return std::sqrt(std::pow(x - x2, 2) + std::pow(y - y2, 2) + std::pow(z - z2, 2));
+}
+
+
+
+
+Vertice& Vertice::operator=(const Vertice& other) {
+        if (this != &other) {  // Prevenir auto-asignación
+            this->x = other.x;
+            this->y = other.y;
+            this->z = other.z;
+            this->indice = other.indice;
+        }
+        return *this;
+    }
+    
+    
+bool Vertice::operator==(const Vertice& v) const {
+        return (this->x == v.x && this->y == v.y && this->z == v.z);
+}
+
+   
