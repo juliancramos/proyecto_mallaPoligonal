@@ -52,7 +52,8 @@ int main() {
                 }
             } else if (comando == "envolvente") {
                 try {
-                    malla.envolvente();
+                    Figura figura =malla.envolvente();
+                    malla.agregarFigura(figura);
                     std::cout << "La caja envolvente de los objetos en memoria se ha "
                                  "generado con el nombre env_global y se ha agregado a "
                                  "los objetos en memoria." << std::endl;
@@ -88,6 +89,7 @@ int main() {
                     std::cerr << "El objeto " << partes[1] << " no ha sido cargado en memoria" << std::endl;
                 }
             } else if (comando == "v_cercanos_caja") {
+                malla.envolvente();
                 malla.v_cercanos_caja(partes[1]);
             } else if (comando == "ayuda") {
                 Sistema::ayuda(partes[1]);

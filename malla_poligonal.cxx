@@ -76,7 +76,7 @@ void MallaPoligonal::listado() {
     std::cout << "Hay n objetos en memoria: " << std::endl;
 }
 
-void MallaPoligonal::envolvente() {
+Figura MallaPoligonal::envolvente() {
     if(figuras.size()>0){
         std::deque<Vertice>envolventeFigura;//Se guardan los valores del calculo del envolvente para cada figura. En la casilla 0 el vertice mayor y en la 1 el menor
         std::deque<Figura>::iterator it=figuras.begin();
@@ -123,7 +123,8 @@ void MallaPoligonal::envolvente() {
         envolvente.push_back(vMayor);
         envolvente.push_back(vMenor);
         Figura f=Figura::construirCajaEnvolvente(envolvente,"global");
-        agregarFigura(f);
+        return f;
+        
         
         
     }else{

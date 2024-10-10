@@ -16,7 +16,7 @@ public:
 
   void cargar(const std::string &nombre_archivo, MallaPoligonal &malla);
   void listado();
-  void envolvente();
+  Figura envolvente();
   Figura envolventeObjeto(const std::string &nombre_objeto);
   void descargarObjeto(const std::string &nombre_objeto);
   void guardarObjeto(const std::string &nombre_objeto,
