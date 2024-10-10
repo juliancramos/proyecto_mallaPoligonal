@@ -33,7 +33,9 @@ class Figura{
 
         static Figura construirCajaEnvolvente(const std::deque<Vertice>& vertices, const std::string& nombreObjeto);
 
-        Vertice verticeCercano(float px, float py, float pz);
+        Vertice verticeCercano(float px, float py, float pz) const;
+
+        std::deque<Vertice> v_cercanos_caja(const std::deque<Vertice>&preOrdenCaja) const;
 };
 #endif
 

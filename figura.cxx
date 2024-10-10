@@ -114,7 +114,7 @@ int Figura::getNAristasFigura() const {
 }
 
 
-Vertice Figura::verticeCercano(float px, float py, float pz) {
+Vertice Figura::verticeCercano(float px, float py, float pz) const {
     if (!arbolVertices || arbolVertices->esVacio()) {
         std::cerr << "El árbol KD de la figura está vacío." << std::endl;
         return Vertice();  //Vertice por defecto
@@ -122,6 +122,20 @@ Vertice Figura::verticeCercano(float px, float py, float pz) {
     
     float mejorDistancia = -1;  //Inicia con valor inválido 
     return arbolVertices->verticeCercano(px, py, pz, 0, mejorDistancia);
+}
+
+std::deque<Vertice> Figura::v_cercanos_caja(const std::deque<Vertice>&preOrdenCaja) const{
+    std::deque<Vertice>puntosCercanos;
+
+    for(const auto& p:preOrdenCaja){
+        puntosCercanos.push_back(verticeCercano(p.getX(), p.getY(), p.getZ() ));
+    }
+    for(const auto& puntos:puntosCercanos){
+        std::cout<<puntos<<std::endl;
+    }
+    
+    return puntosCercanos;
+ 
 }
 
     

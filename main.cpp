@@ -89,8 +89,20 @@ int main() {
                     std::cerr << "El objeto " << partes[1] << " no ha sido cargado en memoria" << std::endl;
                 }
             } else if (comando == "v_cercanos_caja") {
-                malla.envolvente();
-                malla.v_cercanos_caja(partes[1]);
+                Figura f=malla.envolvente();
+                try{
+                  std::deque<Vertice> preOrdenCaja = f.getVertices()->preOrden();
+                  if(preOrdenCaja.size()>0){
+                    std::cout<<"Si está el pre orden"<<std::endl;
+                    malla.v_cercanos_caja(partes[1], preOrdenCaja);
+                  }
+                }catch(const std::exception &e){
+                  std::cerr << "Error al generar el envolvente del objeto: " << e.what() << std::endl;
+                }
+                
+                
+                std::cout << "Los vértices del objeto \"" << partes[1] << "\" más cercanos a las esquinas de su caja envolvente son:\n";
+
             } else if (comando == "ayuda") {
                 Sistema::ayuda(partes[1]);
             } else {

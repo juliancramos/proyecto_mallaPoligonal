@@ -19,9 +19,8 @@ public:
   Figura envolvente();
   Figura envolventeObjeto(const std::string &nombre_objeto);
   void descargarObjeto(const std::string &nombre_objeto);
-  void guardarObjeto(const std::string &nombre_objeto,
-                     const std::string &nombre_archivo);
-  void v_cercanos_caja(const std::string &nombre_objeto);
+  void guardarObjeto(const std::string &nombre_objeto, const std::string &nombre_archivo);
+  std::deque<Vertice>  v_cercanos_caja(const std::string &nombre_objeto, const std::deque<Vertice>&preOrdenCaja);
 
   // Funciones complementarias
   Figura *getFigura(const std::string &nombreFigura); // Retorna una figura por su nombre
