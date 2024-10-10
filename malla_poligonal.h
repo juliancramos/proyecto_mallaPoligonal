@@ -32,7 +32,7 @@ public:
   void agregarFigura(const Figura &figura);
 
   Vertice verticeCercanoObjeto(float px, float py, float pz, const std::string&nombreObjeto);
-  // Vertice verticeCercanoObjeto(float px, float py, float pz);
+  Figura verticeCercano(float px, float py, float pz);
 
   
 };

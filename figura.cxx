@@ -18,7 +18,7 @@ std::deque<Cara>&Figura:: getCaras(){
     return caras;
 }
 
-ArbolKD<Vertice>* Figura::getVertices() {
+ArbolKD<Vertice>* Figura::getVertices() const{
     return arbolVertices;  
 }
 

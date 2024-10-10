@@ -19,7 +19,7 @@ class Figura{
 
         Figura (const std::string & n);
         std::deque<Cara>& getCaras();
-        ArbolKD<Vertice>* getVertices();
+        ArbolKD<Vertice>* getVertices() const;
         
         void agregarCara(const Cara & c);
         void agregarVertice(const Vertice &v);

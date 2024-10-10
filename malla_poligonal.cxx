@@ -178,9 +178,35 @@ Vertice MallaPoligonal::verticeCercanoObjeto(float x, float y, float z, const st
     return figura->verticeCercano(x, y, z);
 }
 
-// Vertice MallaPoligonal::verticeCercanoObjeto(float px, float py, float pz){
+Figura MallaPoligonal::verticeCercano(float px, float py, float pz){
+    if (figuras.size() > 0) {
+        // para comenzar, le vertice más cercano se inicializa como el de la primera figura
+        float mejorDistancia=-1;
+        Vertice cercanoActual = figuras[0].getVertices()->verticeCercano(px, py, pz, 0, mejorDistancia);
+        float distanciaActual = cercanoActual.calcularDistancia(px, py, pz);
+        std::string nombreActual = figuras[0].getNombre();
 
-// }
+        // Se recorren todas y por cada una se haya el vertice mas cercano para poder comparar
+        for (const auto& fig : figuras) {
+            //Se llama al arbol ya que vertices es el kd
+            Vertice verticeTemp = fig.getVertices()->verticeCercano(px, py, pz, 0, mejorDistancia); 
+            float distanciaTemp = verticeTemp.calcularDistancia(px, py, pz);
+
+            if (distanciaTemp < distanciaActual) {
+                distanciaActual = distanciaTemp;
+                cercanoActual = verticeTemp;
+                nombreActual = fig.getNombre();
+            }
+        }
+
+        // Crear una figura con el nombre y agregar el vértice más cercano(único vertice de la fígura)
+        Figura final(nombreActual);
+        final.agregarVertice(cercanoActual);
+        return final;
+    }
+    throw std::runtime_error("No hay figuras cargadas en la malla");
+}
+
 
 
 

@@ -13,6 +13,8 @@ template<class T>
 T& ArbolKD<T>::datoRaiz() {
     if (raiz != nullptr) {
         return raiz->getDato();
+    }else {
+        throw std::runtime_error("Error: El árbol está vacío, no se puede acceder a la raíz.");
     }
 }
 
