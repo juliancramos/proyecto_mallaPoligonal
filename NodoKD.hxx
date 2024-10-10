@@ -67,8 +67,8 @@ int NodoKD<T>::tam() const {
 
 template<class T>
 void NodoKD<T>::insertar(const T& val, int profundidad) {
-    // Si el nodo actual está vacío (sin valor), insertar el nuevo valor
-    if (dato == T()) {  
+    // Si el nodo actual está vacío se inserta el nuego valor
+    if (dato.getIndice() == -1) {  //El constructor por defecto de Vertice indica que el indice es -1 
         setDato(val); 
         setDimension(profundidad % 3);  // Para alternar entre x, y, z 
         return;
@@ -135,16 +135,25 @@ NodoKD<T>* NodoKD<T>::buscar(const T& val, int profundidad) {
 
 
 template<class T>
-void NodoKD<T>::preOrden() {
-    std::cout << this->dato << " "<<std::endl;
+std::deque<T> NodoKD<T>::preOrden() {
+    std::deque<T> resultado;
 
+    // Agregamos el dato actual al deque
+    resultado.push_back(this->dato);
+
+    //Se agregan los elementos del subarbol izquierdo
     if (this->hijoIzq != nullptr) {
-        this->hijoIzq->preOrden();
+        std::deque<T> izquierdo = this->hijoIzq->preOrden();
+        resultado.insert(resultado.end(), izquierdo.begin(), izquierdo.end());
     }
 
+    //Se agregan los elementos del subarbol derecho
     if (this->hijoDer != nullptr) {
-        this->hijoDer->preOrden();
+        std::deque<T> derecho = this->hijoDer->preOrden();
+        resultado.insert(resultado.end(), derecho.begin(), derecho.end());
     }
+
+    return resultado;
 }
 
 template<class T>

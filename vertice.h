@@ -28,6 +28,7 @@ class Vertice{
 
         bool operator==(const Vertice& v) const;
         friend std::ostream& operator<<(std::ostream& os, const Vertice& v);
+        float getCoord(int dimension) const;
 
         
 };

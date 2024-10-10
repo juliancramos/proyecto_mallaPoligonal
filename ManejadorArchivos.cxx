@@ -4,6 +4,7 @@
 #include "malla_poligonal.h"
 #include "cara.h"
 #include "arista.h"
+#include "ArbolKD.h"
 
 #include <iostream>
 #include <fstream>
@@ -40,11 +41,7 @@ void ManejadorArchivos::leerArchivo(const std::string &nombreArchivo, MallaPolig
     if(nVertices<=0){
         throw std::runtime_error("Numero invalido de vertices");
     }
-    /* PRUEBAS
-    std::cout<<nombreObjeto<<std::endl;
-    std::cout<<nVertices<<std::endl;
-    std::cout<<"Guardar vertices"<<std::endl;
-  */
+    
     //Guardar vertices
     for(int i=0; i<nVertices; i++){
         entrada>>x;
@@ -53,6 +50,8 @@ void ManejadorArchivos::leerArchivo(const std::string &nombreArchivo, MallaPolig
         //::cout<<x<<" "<<y<<" "<<z<<std::endl;
         Vertice v(x, y, z, i);
         fig.agregarVertice(v);
+        
+
     }
     //Se linea una linea como escape para comenzar a leer las caras
     std::getline(entrada, linea);
@@ -88,33 +87,37 @@ void ManejadorArchivos::leerArchivo(const std::string &nombreArchivo, MallaPolig
 }
 
 void ManejadorArchivos::escribirArchivoObjeto(Figura * figura, const std::string& nombreArchivo){
-    std::deque<Vertice> vertices=figura->getVertices();
-  std::deque<Cara> caras=figura->getCaras();
-  std::deque<int> verticesCara; //De números enteros ya que se almacenan los indices del vertice
-  std::deque<Vertice>::iterator it=vertices.begin();
-  std::deque<Cara>::iterator itCara=caras.begin();
+    ArbolKD<Vertice>* arbolVertices = figura->getVertices();
+    std::deque<Cara> caras=figura->getCaras();
+    std::deque<int> verticesCara; //De números enteros ya que se almacenan los indices del vertice
+    std::deque<Cara>::iterator itCara=caras.begin();
   
     std::ofstream salida(nombreArchivo);
     if(!salida){
         throw std::runtime_error("No se pudo crear el archivo \""+nombreArchivo+"\"");
     }
-  salida<<figura->getNombre()<<std::endl;
-  salida<<vertices.size()<<std::endl;
-  for(; it!=vertices.end(); it++){
-    salida<<it->getX()<<" "<<it->getY()<<" "<<it->getZ()<<std::endl;
-  }
-  
-  for(; itCara!=caras.end(); itCara++){
-    //std::cout<<itCara->getNVertices()<<std::endl;
-    salida<<itCara->getNVertices()<<" ";
-    verticesCara=itCara->getVertices();
-    
-    for(int i=0; i<itCara->getNVertices(); i++){
-      salida<<verticesCara[i]<<" ";
+
+    salida<<figura->getNombre()<<std::endl;
+    salida<<arbolVertices->tam()<<std::endl;
+
+    //Se traen los vertices por el recorrido pre orden
+    std::deque<Vertice> vertices = arbolVertices->preOrden();  
+    for (const Vertice& vertice : vertices) {
+        salida << vertice.getX() << " " << vertice.getY() << " " << vertice.getZ() << std::endl;
     }
-    salida<<std::endl;
     
-  }
-  salida<<"-1";
+    //Escribir las caras
+    for(; itCara!=caras.end(); itCara++){
+        
+        salida<<itCara->getNVertices()<<" ";
+        verticesCara=itCara->getVertices();
+        
+        for(int i=0; i<itCara->getNVertices(); i++){
+        salida<<verticesCara[i]<<" ";
+        }
+        salida<<std::endl;
+        
+    }
+    salida<<"-1";
   
 }

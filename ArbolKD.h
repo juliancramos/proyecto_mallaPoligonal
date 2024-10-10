@@ -14,13 +14,18 @@ class ArbolKD {
         T& datoRaiz();
         int altura();
         int tam() const;
-        void insertar(T& val);
+        void insertar(const T& val);
         NodoKD<T>* buscar(T& val);
 
-        void preOrden();
+        std::deque<T> preOrden();
         void inOrden();
         void posOrden();
         void nivelOrden();
+
+        T encontrarMinimo(NodoKD<T>* nodo, int dimension);
+        T encontrarMaximo(NodoKD<T>* nodo, int dimension);
+        T encontrarMaximo();
+        T encontrarMinimo();
     
     
 };

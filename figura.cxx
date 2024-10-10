@@ -10,42 +10,32 @@ void Figura:: agregarCara(const Cara & c){
     caras.push_back(c);
 }
 void Figura:: agregarVertice(const Vertice &v){
-    vertices.push_back(v);
+    //vertices.push_back(v);
+    arbolVertices->insertar(v);
 }
 
 std::deque<Cara>&Figura:: getCaras(){
     return caras;
 }
-std::deque<Vertice>& Figura::getVertices(){
-    return vertices;
-    
+
+ArbolKD<Vertice>* Figura::getVertices() {
+    return arbolVertices;  
 }
 
-std::deque<Vertice> Figura::envolventeObjeto(){
-    std::deque<Vertice>::iterator it=vertices.begin();
-    //Se le asigna de una vez algun valor existente para que no se arrastre basura
-    int mayorX=it->getX(), menorX=it->getX(), mayorY=it->getY(), menorY=it->getY(), mayorZ=it->getZ(), menorZ=it->getZ();
-    for(; it!=vertices.end(); it++){
-        if(it->getX()>mayorX){
-            mayorX=it->getX();
-        }else if(it->getX()<menorX){
-            menorX=it->getX();
-        }
-        if(it->getY()>mayorY){
-            mayorY=it->getY();
-        }else if(it->getY()<menorY){
-            menorY=it->getY();
-        }
-        if(it->getZ()>mayorZ){
-            mayorZ=it->getZ();
-        }else if(it->getZ()<menorZ){
-            menorZ=it->getZ();
-        }
-    }
-    Vertice vMayor(mayorX, mayorY, mayorZ, 0);
-    Vertice vMenor(menorX, menorY, menorZ, 1);
-    //std::cout<<vMayor.getX()<<" "<<vMayor.getY()<<" "<<vMayor.getZ()<<std::endl;
-    //std::cout<<vMenor.getX()<<" "<<vMenor.getY()<<" "<<vMayor.getZ()<<std::endl;
+
+
+std::deque<Vertice> Figura::envolventeObjeto() {
+    if (arbolVertices == nullptr) return {};  
+
+    Vertice mayor = arbolVertices->encontrarMaximo();  
+    Vertice menor = arbolVertices->encontrarMinimo();  
+
+    
+
+    Vertice vMayor(mayor.getX(), mayor.getY(), mayor.getZ(), 0);
+    Vertice vMenor(menor.getX(), menor.getY(), menor.getZ(), 1);
+   
+
     std::deque<Vertice> envolvente;
     envolvente.push_back(vMayor);
     envolvente.push_back(vMenor);
@@ -54,9 +44,11 @@ std::deque<Vertice> Figura::envolventeObjeto(){
 }
 
 Figura Figura::construirCajaEnvolvente(const std::deque<Vertice>& vertices, const std::string& nombreObjeto){
-    int mayorX=vertices[0].getX(), menorX=vertices[1].getX();
-    int mayorY=vertices[0].getY(), menorY=vertices[1].getY();
-    int mayorZ=vertices[0].getZ(), menorZ=vertices[1].getZ();
+    float mayorX=vertices[0].getX(), menorX=vertices[1].getX();
+    float mayorY=vertices[0].getY(), menorY=vertices[1].getY();
+    float mayorZ=vertices[0].getZ(), menorZ=vertices[1].getZ();
+    
+
 
     std::string nuevoNombre="env_"+nombreObjeto;
     Figura f(nuevoNombre);
@@ -88,17 +80,19 @@ Figura Figura::construirCajaEnvolvente(const std::deque<Vertice>& vertices, cons
     
     return f;
 }
-
+    
 
 int Figura:: buscarIndiceVertice(float x, float y, float z){
-    std::deque<Vertice>::iterator it=vertices.begin();
-    for(; it!= vertices.end(); it++){
-        if(it->getX()==x && it->getY()==y && it->getZ()==z){
-            return it->getIndice();
+    Vertice v(x,y,z, -1); //El indice es -1
+    if(arbolVertices!=nullptr){
+        NodoKD<Vertice>* nodo = arbolVertices->buscar(v);
+        if (nodo != nullptr) {
+            return nodo->getDato().getIndice();
         }
     }
     return -1;
 }
+
 std::string Figura::getNombre() const{
     return nombre;
 }
@@ -106,7 +100,7 @@ int Figura::getNCaras() const{
     return caras.size();
 }
 int Figura::getNVertices() const{
-    return vertices.size();
+    return arbolVertices->tam();
 }
 
 
@@ -124,39 +118,3 @@ int Figura::getNAristasFigura() const {
 }
     
     
-/*
-int Figura::getNAristasFigura() const{
-    std::deque<Arista>aristas;
-    std::deque<Arista>aristasTemp;
-    std::deque<Cara>::const_iterator it=caras.begin();
-    std::deque<Arista>::const_iterator itArista;
-        std::deque<Arista>::const_iterator itA;
-
-    bool repetida;
-
-    int total=0;
-    for(; it!=caras.end(); it++){
-        aristasTemp=it->getAristas;
-        if(aristas.size<1){
-            for(itArista=aristasTemp.begin(); itArista!=aristasTemp.end(); itArista++){
-                aristas.push_back(*itArista);
-            }
-        }else{
-            for(itArista=aristasTemp.begin(); itArista!= aristasTemp.end(); itArista++){
-                for(itA=aristas.begin(); itA!=aristas.end(); itA++){
-                    repetida=itArista->compararArista(itA->getVertice1(), itA->getVertice2);
-                    if(repetida==false){
-                        aristas.push_back(*itArista);
-                    }
-                }
-            }
-        }
-        
-        
-    }
-    for(itA=aristas.begin(); itA!= aristas.end(); itA++){
-        total++;
-    }
-    return total;
-}
-*/

@@ -42,3 +42,12 @@ std::ostream& operator<<(std::ostream& os, const Vertice& v) {
     os << "Vertice: (" << v.x << ", " << v.y << ", " << v.z << ") - Indice: " << v.indice;
     return os;
 }
+
+float Vertice::getCoord(int dimension) const {
+    switch (dimension) {
+        case 0: return x; 
+        case 1: return y; 
+        case 2: return z; 
+        default: throw std::out_of_range("Dimensión fuera de rango");
+    }
+}

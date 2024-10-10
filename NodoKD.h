@@ -26,7 +26,7 @@ public:
     void insertar(const T& val, int profundidad);
     NodoKD<T>* buscar(const T& val, int profundidad);
 
-    void preOrden();
+    std::deque<T> preOrden();
     void inOrden();
     void posOrden();
     void nivelOrden();

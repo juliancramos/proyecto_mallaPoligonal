@@ -1,6 +1,7 @@
 #ifndef FIGURA_H
 #define FIGURA_H
 #include "cara.h"
+#include "ArbolKD.h"
 
 #include <string>
 #include <deque>
@@ -10,13 +11,15 @@ class Figura{
         
         std::string nombre;
         std::deque<Cara> caras;
-        std::deque<Vertice> vertices;
+        //std::deque<Vertice> vertices;
+        ArbolKD<Vertice>* arbolVertices= new ArbolKD<Vertice>();
+        
 
     public:
 
         Figura (const std::string & n);
         std::deque<Cara>& getCaras();
-        std::deque<Vertice>& getVertices();
+        ArbolKD<Vertice>* getVertices();
         
         void agregarCara(const Cara & c);
         void agregarVertice(const Vertice &v);

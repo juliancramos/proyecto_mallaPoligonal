@@ -32,19 +32,8 @@ public:
   void eliminarFigura(int posicion);
   void agregarFigura(const Figura &figura);
 
-  // Plantillas de funciones
-  template <class I>
-  void v_cercano_objeto(I px, I py, I pz, const std::string &nombre_objeto);
-
-  template <class I> void v_cercano(I px, I py, I pz);
-
-  template <class I>
-  void ruta_corta(I i1, I i2, const std::string &nombre_objeto);
-
-  template <class I>
-  void ruta_corta_centro(I i1, const std::string &nombre_objeto);
+  
 };
 
-#include "malla_poligonal.hxx" // Incluir las definiciones de las plantillas
 
-#endif // MALLA_POLIGONAL_H
+#endif 

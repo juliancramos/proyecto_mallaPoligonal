@@ -82,49 +82,37 @@ void MallaPoligonal::envolvente() {
         std::deque<Figura>::iterator it=figuras.begin();
         envolventeFigura=figuras[0].envolventeObjeto();
              
-        int mayorX = envolventeFigura[0].getX(), menorX = envolventeFigura[1].getX();
-        int mayorY = envolventeFigura[0].getY(), menorY = envolventeFigura[1].getY();
-        int mayorZ = envolventeFigura[0].getZ(), menorZ = envolventeFigura[1].getZ();
-        // std::cout<<"Mayor x: "<<mayorX<<std::endl;
-        // std::cout<<"Mayor y: "<<mayorY<<std::endl;
-        // std::cout<<"Mayor z: "<<mayorZ<<std::endl;
-        // std::cout<<"menor x: "<<menorX<<std::endl;
-        // std::cout<<"menor y: "<<menorY<<std::endl;
-        // std::cout<<"menor z: "<<menorZ<<std::endl;
-
+        float mayorX = envolventeFigura[0].getX(), menorX = envolventeFigura[1].getX();
+        float mayorY = envolventeFigura[0].getY(), menorY = envolventeFigura[1].getY();
+        float mayorZ = envolventeFigura[0].getZ(), menorZ = envolventeFigura[1].getZ();
+        
 
         for(; it!=figuras.end(); it++){
             envolventeFigura=it->envolventeObjeto();
             //Proceso para calcular cada mayor
             if(envolventeFigura[0].getX()>mayorX){
                 mayorX=envolventeFigura[0].getX();    
-        std::cout<<"Mayor x: "<<mayorX<<std::endl;
                 
             }
             if(envolventeFigura[0].getY()>mayorY){
                 mayorY=envolventeFigura[0].getY();
-        std::cout<<"Mayor y: "<<mayorY<<std::endl;
 
             }
             if(envolventeFigura[0].getZ()>mayorZ){
                 mayorZ=envolventeFigura[0].getZ();
-        std::cout<<"Mayor z: "<<mayorZ<<std::endl;
 
             }
             //Proceso para calcular cada menor
             if(envolventeFigura[1].getX()<menorX){
                 menorX=envolventeFigura[1].getX();
-        std::cout<<"menor x: "<<menorX<<std::endl;
 
             }
             if(envolventeFigura[1].getY()<menorY){
                 menorY=envolventeFigura[1].getY();
-        std::cout<<"menor y: "<<menorY<<std::endl;
 
             }
             if(envolventeFigura[1].getZ()<menorZ){
                 menorZ=envolventeFigura[1].getZ();
-        std::cout<<"menor z: "<<menorZ<<std::endl;
 
             }
         }
@@ -149,8 +137,9 @@ void MallaPoligonal::envolvente() {
 Figura MallaPoligonal::envolventeObjeto(const std::string &nombre_objeto) {
     Figura *figura = getFigura(nombre_objeto);
     if (figura) {
-      std::deque<Vertice> verticesEnvolvente = figura->envolventeObjeto();
-      Figura f=Figura::construirCajaEnvolvente(verticesEnvolvente, nombre_objeto);
+        std::deque<Vertice> verticesEnvolvente = figura->envolventeObjeto();
+        
+        Figura f=Figura::construirCajaEnvolvente(verticesEnvolvente, nombre_objeto);
         return f;
         
     }else{

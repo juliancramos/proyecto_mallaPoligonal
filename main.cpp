@@ -122,22 +122,22 @@ int main() {
         }
 
       } else if (comando == "ruta_corta_centro") {
-        malla.ruta_corta_centro(stoi(partes[1]), partes[2]);
+        //malla.ruta_corta_centro(stoi(partes[1]), partes[2]);
       } else {
         cout << "El comando \"" << comando << "\" no es válido" << endl;
       }
     } else if (partes.size() == 4) {
       if (comando == "v_cercano") {
-        malla.v_cercano(stoi(partes[1]), stoi(partes[2]), stoi(partes[3]));
+        //malla.v_cercano(stoi(partes[1]), stoi(partes[2]), stoi(partes[3]));
       } else if (comando == "ruta_corta") {
-        malla.ruta_corta(stoi(partes[1]), stoi(partes[2]), partes[3]);
+       // malla.ruta_corta(stoi(partes[1]), stoi(partes[2]), partes[3]);
       } else {
         cout << "El comando \"" << comando << "\" no es válido" << endl;
       }
     } else if (partes.size() == 5) {
       if (comando == "v_cercano") {
-        malla.v_cercano_objeto(stoi(partes[1]), stoi(partes[2]),
-                               stoi(partes[3]), partes[4]);
+        // malla.v_cercano_objeto(stoi(partes[1]), stoi(partes[2]),
+        //                        stoi(partes[3]), partes[4]);
       } else {
         cout << "El comando \"" << comando << "\" no es válido" << endl;
       }
