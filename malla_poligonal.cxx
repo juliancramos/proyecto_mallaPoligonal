@@ -212,20 +212,16 @@ Figura MallaPoligonal::verticeCercano(float px, float py, float pz){
 
 
 
-std::deque<Vertice>  MallaPoligonal::v_cercanos_caja(const std::string &nombre_objeto, const std::deque<Vertice>&preOrdenCaja) {
-    
-    for(const auto&v:preOrdenCaja){
-        std::cout<<v<<std::endl;
-    }
-    for(const auto& f:figuras){
-        if(f.getNombre()==nombre_objeto){
-            std::cout<<"Nombre de la figura encontrada: "<<f.getNombre()<<std::endl;
-            return f.v_cercanos_caja(preOrdenCaja); //Envía la caja envolvente por parámetro
-            break;
-        }
+std::deque<Vertice>  MallaPoligonal::v_cercanos_caja(Figura* figura, const std::deque<Vertice>&preOrdenObjeto) {
+    std::deque<Vertice>puntosCercanos;
+    // for(const auto&v:preOrdenObjeto){ //verifica que se imprima el pre orden de la caja envolvente
+    //     std::cout<<v<<std::endl;
+    // }
+
+    for(const auto& vertice:preOrdenObjeto){
+        puntosCercanos.push_back(figura->verticeCercano(vertice.getX(),vertice.getY(), vertice.getZ() ));
     }
 
-    std::deque<Vertice>v;
-    return v;
+    return puntosCercanos;
 }
 

@@ -89,19 +89,36 @@ int main() {
                     std::cerr << "El objeto " << partes[1] << " no ha sido cargado en memoria" << std::endl;
                 }
             } else if (comando == "v_cercanos_caja") {
-                Figura f=malla.envolvente();
                 try{
-                  std::deque<Vertice> preOrdenCaja = f.getVertices()->preOrden();
-                  if(preOrdenCaja.size()>0){
-                    std::cout<<"Si está el pre orden"<<std::endl;
-                    malla.v_cercanos_caja(partes[1], preOrdenCaja);
+                    Figura* figura= malla.getFigura(partes[1]);
+                    
+
+                    if(figura!=nullptr){
+                      Figura figEnvolvente = malla.envolventeObjeto(partes[1]);
+                      std::deque<Vertice> preFigEnvolvente = figEnvolvente.getVertices()->preOrden();
+
+
+                    if(preFigEnvolvente.size()>0){
+                     
+
+                      std::deque<Vertice> verticesCercanos = malla.v_cercanos_caja(figura, preFigEnvolvente);
+                      std::cout << "Los vértices del objeto \"" << partes[1] << "\" más cercanos a las esquinas de su caja envolvente son:\n"<<std::endl;
+                      std::cout<<"Esquina\t\t\t\t\tVertice\t\t\t\t\t\t\t\t\tDistancia"<<std::endl;
+                      for(int i=0; i<preFigEnvolvente.size();i++){
+                        std::cout<<preFigEnvolvente[i]<<"\t\t"<<verticesCercanos[i]<<"\t\t\t\t"<<
+                            verticesCercanos[i].calcularDistancia(preFigEnvolvente[i].getX(),preFigEnvolvente[i].getY(),preFigEnvolvente[i].getZ())<<std::endl;
+                      }
+                    }
+                  }else{
+                    std::cout<<"La figura no se encuentra en la malla"<<std::endl;
                   }
+                  
                 }catch(const std::exception &e){
                   std::cerr << "Error al generar el envolvente del objeto: " << e.what() << std::endl;
                 }
                 
                 
-                std::cout << "Los vértices del objeto \"" << partes[1] << "\" más cercanos a las esquinas de su caja envolvente son:\n";
+                
 
             } else if (comando == "ayuda") {
                 Sistema::ayuda(partes[1]);

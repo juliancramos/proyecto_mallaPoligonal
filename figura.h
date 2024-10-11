@@ -35,7 +35,7 @@ class Figura{
 
         Vertice verticeCercano(float px, float py, float pz) const;
 
-        std::deque<Vertice> v_cercanos_caja(const std::deque<Vertice>&preOrdenCaja) const;
+        // std::deque<Vertice> v_cercanos_caja(const std::deque<Vertice>&preOrdenObjeto) const;
 };
 #endif
 

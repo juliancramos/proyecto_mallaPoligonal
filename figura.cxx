@@ -124,19 +124,10 @@ Vertice Figura::verticeCercano(float px, float py, float pz) const {
     return arbolVertices->verticeCercano(px, py, pz, 0, mejorDistancia);
 }
 
-std::deque<Vertice> Figura::v_cercanos_caja(const std::deque<Vertice>&preOrdenCaja) const{
-    std::deque<Vertice>puntosCercanos;
-
-    for(const auto& p:preOrdenCaja){
-        puntosCercanos.push_back(verticeCercano(p.getX(), p.getY(), p.getZ() ));
-    }
-    for(const auto& puntos:puntosCercanos){
-        std::cout<<puntos<<std::endl;
-    }
+// std::deque<Vertice> Figura::v_cercanos_caja(const std::deque<Vertice>&preOrdenObjeto) const{
+//     //Acá estamos en la figura completa. Se debe recorrer la figura para cada vertice de la caja
     
-    return puntosCercanos;
- 
-}
+// }
 
     
     
