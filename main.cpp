@@ -160,9 +160,12 @@ int main() {
                 float z = stof(partes[3]);
                 std::string nombreFigura = partes[4];
                 Vertice v = malla.verticeCercanoObjeto(x, y, z, nombreFigura);
+                float distancia = v.calcularDistancia(stof(partes[1]), stof(partes[2]), stof(partes[3]));
                 if (v.getIndice() != -1) {
                     std::cout << "El vertice " << v.getIndice() << " (" << v.getX() << ", " << v.getY() << ", " << v.getZ() 
-                              << ") del objeto " << nombreFigura << ", es el más cercano al punto dado" << std::endl;
+                              << ") del objeto " << nombreFigura << ", es el más cercano al punto ("
+                              << partes[1] << ", " << partes[2] << ", " << partes[3] << "), a una distancia de "
+                              << distancia << "." << std::endl;
                 } else {
                     std::cout << "No se encontró ningún vértice cercano." << std::endl;
                 }
