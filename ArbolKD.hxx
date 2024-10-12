@@ -173,10 +173,8 @@ T ArbolKD<T>::verticeCercano(float px, float py, float pz, int nivel, float& mej
     float distanciaActual = nodoActual->getDato().calcularDistancia(px, py, pz);
     
     T mejorVertice = nodoActual->getDato();
-    mejorDistancia = distanciaActual;
 
-    // Función recursiva para buscar en el árbol
-    buscarVerticeCercano(nodoActual, px, py, pz, nivel, mejorVertice, mejorDistancia);
+    buscarVerticeCercano(nodoActual, px, py, pz, nivel, mejorVertice, distanciaActual);
 
     return mejorVertice;
 }
