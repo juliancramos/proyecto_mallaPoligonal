@@ -82,8 +82,8 @@ void ManejadorArchivos::leerArchivo(const std::string &nombreArchivo, MallaPolig
         //Una vez guardados todos los vertices de la cara, se guarda la cara.
         fig.agregarCara(cara);
     }
+    fig.llenarGrafo();
     malla.agregarFigura(fig);
-    //figuras.push_back(fig);
 }
 
 void ManejadorArchivos::escribirArchivoObjeto(Figura * figura, const std::string& nombreArchivo){

@@ -22,7 +22,9 @@ ArbolKD<Vertice>* Figura::getVertices() const{
     return arbolVertices;  
 }
 
-
+Grafo<int> Figura::getGrafo() const {
+    return grafoIndices;
+}
 
 std::deque<Vertice> Figura::envolventeObjeto() {
     if (arbolVertices == nullptr) return {};  
@@ -93,6 +95,17 @@ int Figura:: buscarIndiceVertice(float x, float y, float z){
     return -1;
 }
 
+Vertice Figura::buscarVerticePorIndice(int indice) {
+    if (arbolVertices != nullptr) {
+        NodoKD<Vertice>* nodo = arbolVertices->buscarPorIndice(indice);
+        if (nodo != nullptr) {
+            return nodo->getDato();  // Retorna el vértice encontrado
+        }
+    }
+    throw std::runtime_error("Vértice con el índice especificado no encontrado");
+}
+
+
 std::string Figura::getNombre() const{
     return nombre;
 }
@@ -112,6 +125,26 @@ int Figura::getNAristasFigura() const {
     nAristas=nVertices+nCaras-2;
     return nAristas;
 }
+//Este metodo calcula la distancia euclidiana para todas las aristas de la figura
+void Figura::calcularDistancias() {
+    for (Cara& cara : caras) {
+        for (Arista& arista : cara.getAristas()) {
+            int v1 = arista.getVertice1();
+            int v2 = arista.getVertice2();
+
+            // Obtener los vértices de la figura
+            Vertice vertice1 = buscarVerticePorIndice(v1);
+            Vertice vertice2 = buscarVerticePorIndice(v2);
+
+            // Calcular la distancia
+            float distancia = vertice1.calcularDistancia(vertice2.getX(), vertice2.getY(), vertice2.getZ());
+
+            // Establecer la distancia en la arista
+            arista.setDistancia(distancia);
+        }
+    }
+}
+
 
 
 Vertice Figura::verticeCercano(float px, float py, float pz) const {
@@ -124,10 +157,36 @@ Vertice Figura::verticeCercano(float px, float py, float pz) const {
     return arbolVertices->verticeCercano(px, py, pz, 0, mejorDistancia);
 }
 
-// std::deque<Vertice> Figura::v_cercanos_caja(const std::deque<Vertice>&preOrdenObjeto) const{
-//     //Acá estamos en la figura completa. Se debe recorrer la figura para cada vertice de la caja
-    
-// }
+void Figura::llenarGrafo() {
+    std::set<std::pair<int, int>> aristasUnicas; // Para almacenar aristas únicas (set para que no se repitan)
 
-    
+    for (Cara& c : caras) {
+        std::deque<Arista> aristas = c.getAristas();
+        for (Arista& a : aristas) {
+            int v1 = a.getVertice1(); // Obtiene los índices de la arista
+            int v2 = a.getVertice2();
+
+            // para asegurarse de que (v1, v2) y (v2, v1) sean consideradas la misma arista
+            if (v1 > v2) std::swap(v1, v2);
+
+            // std::cout << "ACTUAL V1: " << v1 << std::endl;
+            // std::cout << "ACTUAL V2: " << v2 << std::endl;
+            // Verificar si la arista ya fue agregada
+            if (aristasUnicas.find({v1, v2}) == aristasUnicas.end()) { //Si pasa esto significa que no está
+                aristasUnicas.insert({v1, v2});
+
+                // Obtener el peso de la arista (distancia)
+                double distancia = a.getDistancia();
+
+                //std::cout << "Insertando arista: (" << v1 << ", " << v2 << ")\n";
+                this->grafoIndices.agregarArista(v1, v2, distancia);
+            }
+        }
+    }
+}
+
+
+
+
+
     
