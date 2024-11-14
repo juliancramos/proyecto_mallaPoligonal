@@ -1,22 +1,16 @@
 #ifndef ARISTA_H
 #define ARISTA_H
-#include <deque>
 
-class Arista{
-    private:
-        //Hace referencia a los indices de los vertices
-        int vertice1;
-        int vertice2;
+class Arista {
+public:
+    int v1, v2;
+    float distancia;
 
-    public:
-    Arista(int v1, int v2);
+    Arista(int v1, int v2, float distancia = -1.0f);
     int getVertice1() const;
     int getVertice2() const;
-
-    
-
+    float getDistancia() const;
+    void setDistancia(float dist);
 };
 
-#endif
-
-
+#endif // ARISTA_H
