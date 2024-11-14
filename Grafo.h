@@ -1,11 +1,9 @@
 #ifndef GRAFO_H
-#define GRAFO_PESO_H
+#define GRAFO_H
 
 #include <vector>
 #include <unordered_map>
-#include <iostream>
 #include <set>
-#include <queue>
 #include <utility> // Para std::pair
 
 //Esta implementación de grafo es diferente ya que también almacena el peso para cada arista
