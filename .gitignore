@@ -6,3 +6,7 @@ p
 
 *.json
 .vscode/settings.json
+
+.idea/
+build/
+cmake-build-debug/

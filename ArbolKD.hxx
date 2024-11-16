@@ -60,6 +60,12 @@ NodoKD<T>* ArbolKD<T>::buscar(T& val) {
     return nullptr;
 }
 
+template <class T>
+NodoKD<T>* ArbolKD<T>::buscarPorIndice(int indice) {
+    return raiz ? raiz->buscarPorIndice(indice) : nullptr;
+}
+
+
 
 
 

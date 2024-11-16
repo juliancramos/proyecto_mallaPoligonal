@@ -1,7 +1,6 @@
 #ifndef CARA_H
 #define CARA_H
 #include "arista.h"
-#include "vertice.h"
 #include <deque>
 
 class Cara{
@@ -16,7 +15,7 @@ class Cara{
         void asignarAristas();
         int getNAristas() const;
         int getNVertices() const;
-        const std::deque<Arista>& getAristas() const; 
+        const std::deque<Arista>& getAristas() const;
 };
 
 #endif

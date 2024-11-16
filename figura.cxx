@@ -22,7 +22,9 @@ ArbolKD<Vertice>* Figura::getVertices() const{
     return arbolVertices;  
 }
 
-
+Grafo<int> Figura::getGrafo() const {
+    return grafoIndices;
+}
 
 std::deque<Vertice> Figura::envolventeObjeto() {
     if (arbolVertices == nullptr) return {};  
@@ -93,6 +95,17 @@ int Figura:: buscarIndiceVertice(float x, float y, float z){
     return -1;
 }
 
+Vertice Figura::buscarVerticePorIndice(int indice) {
+    if (arbolVertices != nullptr) {
+        NodoKD<Vertice>* nodo = arbolVertices->buscarPorIndice(indice);
+        if (nodo != nullptr) {
+            return nodo->getDato();  // Retorna el vértice encontrado
+        }
+    }
+    throw std::runtime_error("Vértice con el índice especificado no encontrado");
+}
+
+
 std::string Figura::getNombre() const{
     return nombre;
 }
@@ -124,10 +137,89 @@ Vertice Figura::verticeCercano(float px, float py, float pz) const {
     return arbolVertices->verticeCercano(px, py, pz, 0, mejorDistancia);
 }
 
-// std::deque<Vertice> Figura::v_cercanos_caja(const std::deque<Vertice>&preOrdenObjeto) const{
-//     //Acá estamos en la figura completa. Se debe recorrer la figura para cada vertice de la caja
-    
-// }
+//Este metodo calcula la distancia euclidiana para todas las aristas de la figura
+void Figura::calcularDistancias() {
+    // Recorrer todas las caras
+    for (auto& cara : caras) {
+        // Recorrer todas las aristas de cada cara
+        for (auto& arista : cara.getAristas()) {
+            // Verificar si la distancia es -1 (no se ha calculado aún ya que por defecto es -1)
+            if (arista.getDistancia() == -1.0f) {
+                int origen = arista.getVertice1();
+                int destino = arista.getVertice2();
 
-    
+                // Obtener los vértices  usando los índices
+                Vertice verticeOrigen = buscarVerticePorIndice(origen);
+                Vertice verticeDestino = buscarVerticePorIndice(destino);
+
+                // Calcular la distancia euclidiana
+                float distancia = verticeOrigen.calcularDistancia(verticeDestino.getX(), verticeDestino.getY(), verticeDestino.getZ());
+
+                arista.setDistancia(distancia);
+            }
+        }
+    }
+}
+
+
+
+void Figura::llenarGrafo() {
+    std::set<std::pair<int, int>> aristasUnicas; // Para almacenar aristas únicas (set para que no se repitan)
+
+    for (Cara& c : caras) {
+        std::deque<Arista> aristas = c.getAristas();
+        for (Arista& a : aristas) {
+            int v1 = a.getVertice1(); // Obtiene los índices de los vertices en la arista
+            int v2 = a.getVertice2();
+
+            // para asegurarse de que (v1, v2) y (v2, v1) sean consideradas la misma arista
+            if (v1 > v2) std::swap(v1, v2);
+
+            // std::cout << "ACTUAL V1: " << v1 << std::endl;
+            // std::cout << "ACTUAL V2: " << v2 << std::endl;
+            // Verificar si la arista ya fue agregada
+            if (aristasUnicas.find({v1, v2}) == aristasUnicas.end()) { //Si pasa esto significa que no está
+                aristasUnicas.insert({v1, v2});
+
+                // Obtener el peso de la arista (distancia)
+                double distancia = a.getDistancia();
+
+                //std::cout << "Insertando arista: (" << v1 << ", " << v2 << ")\n";
+                this->grafoIndices.agregarArista(v1, v2, distancia);
+            }
+        }
+    }
+}
+
+
+std::pair<std::vector<int>, float> Figura::calcularRutaMasCorta(int indiceOrigen, int indiceDestino) {
+    //Esto es solo una prueba
+    // std::cout << "Pesos de las aristas en la figura:\n";
+    // for (const auto& cara : caras) {
+    //     for (const auto& arista : cara.getAristas()) {
+    //         std::cout << "Arista de " << arista.getVertice1() << " a "
+    //                   << arista.getVertice2() << " con peso: "
+    //                   << arista.getDistancia() << "\n";
+    //     }
+    // }
+    std::vector<int> ruta;
+    float distanciaTotal = 0.0f;
+
+    try {
+        // Calcular la ruta más corta
+        //Pair de vector de enteros para las rutas (en primera posicion) y la distancia (en segunda)
+        auto resultado = grafoIndices.rutaMasCorta(indiceOrigen, indiceDestino);
+        ruta = resultado.first;
+        distanciaTotal = resultado.second;
+    } catch (const std::runtime_error& e) {
+        std::cerr << "Error: " << e.what() << "\n";
+    }
+
+    return {ruta, distanciaTotal};
+}
+
+
+
+
+
     

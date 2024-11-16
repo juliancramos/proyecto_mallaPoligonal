@@ -1,6 +1,6 @@
 #ifndef _NODO_KD_H
 #define _NODO_KD_H
-
+#include <deque>
 
 template<class T>
 class NodoKD {
@@ -32,6 +32,8 @@ public:
     void nivelOrden();
 
     T verticeCercano(float px, float py, float pz, int nivel, float& mejorDistancia);
+
+    NodoKD<T>* buscarPorIndice(int indice) ;
     
 
 

@@ -2,6 +2,7 @@
 #define _ARBOL_KD_H_
 
 #include "NodoKD.h"
+#include "vertice.h"
 
 template<class T>
 class ArbolKD {
@@ -16,6 +17,7 @@ class ArbolKD {
         int tam() const;
         void insertar(const T& val);
         NodoKD<T>* buscar(T& val);
+        NodoKD<T>* buscarPorIndice(int indice);
 
         std::deque<T> preOrden();
         void inOrden();

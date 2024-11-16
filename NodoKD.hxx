@@ -131,6 +131,27 @@ NodoKD<T>* NodoKD<T>::buscar(const T& val, int profundidad) {
     }
 }
 
+template<class T>
+NodoKD<T>* NodoKD<T>::buscarPorIndice(int indice) {
+    if (this == nullptr) {
+        return nullptr;
+    }
+
+    // Comparar el índice actual con el índice a buscar
+    if (getDato().getIndice() == indice) {
+        return this;  // Retorna el nodo actual si el índice coincide
+    }
+
+    // Busca en ambos hijos ya que no estamos comparando por dimensión
+    NodoKD<T>* nodoIzq = hijoIzq ? hijoIzq->buscarPorIndice(indice) : nullptr;
+    if (nodoIzq != nullptr) {
+        return nodoIzq;
+    }
+
+    return hijoDer ? hijoDer->buscarPorIndice(indice) : nullptr;
+}
+
+
 
 
 
