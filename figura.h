@@ -43,7 +43,7 @@ class Figura{
 
         Grafo<int> getGrafo() const;
 
-
+        std::pair<std::vector<int>, float>calcularRutaMasCorta(int indiceOrigen, int indiceDestino);
 };
 #endif
 

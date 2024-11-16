@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <limits>
+
 #include "Grafo.h"
 
 // Añadir arista entre dos nodos con un peso
@@ -63,4 +66,60 @@ void Grafo<T>::bfs(const T& nodoInicial) const {
             }
         }
     }
+}
+
+//Se usó Bellmand Ford -> Esto porque es desde un solo vértice de origen a todos los demás
+template <typename T>
+std::pair<std::vector<T>, double> Grafo<T>::rutaMasCorta(const T& origen, const T& destino) const {
+    std::unordered_map<T, double> distancias;
+    std::unordered_map<T, T> predecesores;
+
+    for (typename std::unordered_map<T, std::vector<std::pair<T, double>>>::const_iterator it = listaAdyacencia.begin(); it != listaAdyacencia.end(); ++it) {
+        distancias[it->first] = std::numeric_limits<double>::infinity();
+    }
+    distancias[origen] = 0.0;
+
+    // Relajar las aristas V-1 veces
+    for (size_t i = 0; i < listaAdyacencia.size() - 1; ++i) {
+        for (const auto& par : listaAdyacencia) {
+            T u = par.first;
+            for (const auto& vecino : par.second) {
+                T v = vecino.first;
+                double peso = vecino.second;
+                if (distancias[u] + peso < distancias[v]) {
+                    distancias[v] = distancias[u] + peso;
+                    predecesores[v] = u;
+                }
+            }
+        }
+    }
+
+    // Verificar ciclos negativos
+    for (const auto& par : listaAdyacencia) {
+        T u = par.first;
+        for (const auto& vecino : par.second) {
+            T v = vecino.first;
+            double peso = vecino.second;
+            if (distancias[u] + peso < distancias[v]) {
+                throw std::runtime_error("El grafo contiene un ciclo negativo");
+            }
+        }
+    }
+
+    std::vector<T> ruta;
+    double distanciaTotal = distancias[destino];
+
+    if (distanciaTotal == std::numeric_limits<double>::infinity()) {
+        throw std::runtime_error("No se encontró una ruta al destino.");
+    }
+
+    T at = destino;
+    while (at != origen) {
+        ruta.push_back(at);
+        at = predecesores[at];
+    }
+    ruta.push_back(origen);
+    std::reverse(ruta.begin(), ruta.end());
+
+    return {ruta, distanciaTotal};
 }

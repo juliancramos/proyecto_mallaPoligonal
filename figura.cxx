@@ -192,6 +192,32 @@ void Figura::llenarGrafo() {
 }
 
 
+std::pair<std::vector<int>, float> Figura::calcularRutaMasCorta(int indiceOrigen, int indiceDestino) {
+    //Esto es solo una prueba
+    // std::cout << "Pesos de las aristas en la figura:\n";
+    // for (const auto& cara : caras) {
+    //     for (const auto& arista : cara.getAristas()) {
+    //         std::cout << "Arista de " << arista.getVertice1() << " a "
+    //                   << arista.getVertice2() << " con peso: "
+    //                   << arista.getDistancia() << "\n";
+    //     }
+    // }
+    std::vector<int> ruta;
+    float distanciaTotal = 0.0f;
+
+    try {
+        // Calcular la ruta más corta
+        //Pair de vector de enteros para las rutas (en primera posicion) y la distancia (en segunda)
+        auto resultado = grafoIndices.rutaMasCorta(indiceOrigen, indiceDestino);
+        ruta = resultado.first;
+        distanciaTotal = resultado.second;
+    } catch (const std::runtime_error& e) {
+        std::cerr << "Error: " << e.what() << "\n";
+    }
+
+    return {ruta, distanciaTotal};
+}
+
 
 
 

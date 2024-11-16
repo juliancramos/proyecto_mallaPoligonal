@@ -28,6 +28,8 @@ public:
 
     // (Breadth-First Search) Anchura
     void bfs(const T& nodoInicial) const;
+
+    std::pair<std::vector<T>, double> rutaMasCorta(const T& origen, const T& destino) const;
 };
 
 #include "Grafo.hxx"
