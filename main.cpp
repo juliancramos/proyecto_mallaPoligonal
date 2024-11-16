@@ -7,6 +7,7 @@
 #include "vertice.h"
 #include "ArbolKD.h"
 #include "NodoKD.h"
+#include "Grafo.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -133,9 +134,12 @@ int main() {
                 } catch (const std::exception &e) {
                     std::cerr << "Error al guardar el objeto: " << e.what() << std::endl;
                 }
-            } else if (comando == "ruta_corta_centro") {
-                //malla.ruta_corta_centro(stoi(partes[1]), partes[2]);
-            } else {
+            }else if(partes.size() == 3){
+                if(comando == "ruta_corta_centro"){
+                    
+                }
+            }
+            else {
                 cout << "El comando \"" << comando << "\" no es válido" << endl;
             }
         } else if (partes.size() == 4) {
@@ -151,6 +155,37 @@ int main() {
                               << distancia << "." << std::endl;
                 } catch (const std::runtime_error& e) {
                     std::cerr << e.what() << "\n" << std::endl;
+                }
+            }else if (comando == "ruta_corta") {
+                Figura* figura = malla.getFigura(partes[3]);
+                if (figura != nullptr) {
+                    if (partes[1] != partes[2]) {  // Verificar que los vértices no sean iguales
+                        try {
+                            // Convertir los índices de las cadenas a enteros para buscarlos por el índice
+                            int indice1 = std::stoi(partes[1]);
+                            int indice2 = std::stoi(partes[2]);
+
+                            // Intentar buscar los vértices, lanzará excepción si no se encuentran
+                            Vertice vertice1 = figura->buscarVerticePorIndice(indice1);
+                            Vertice vertice2 = figura->buscarVerticePorIndice(indice2);
+
+                            // Si ambos vértices existen, se llama a la función para calcular la ruta
+                            auto resultado = figura->calcularRutaMasCorta(indice1, indice2);
+                            std::cout << "La ruta más corta que conecta los vértices " << indice1 << " y " << indice2
+                          << " del objeto " << partes[3] << " pasa por: ";
+                            for (int indice : resultado.first) {
+                                std::cout << indice << " ";
+                            }
+                            std::cout << "; con una longitud de " << resultado.second << "." << std::endl;
+
+                        } catch (const std::runtime_error& e) {
+                            std::cerr << "Error: " << e.what() << "\n";
+                        }
+                    } else {
+                        std::cout << "Los índices de los vértices dados son iguales." << std::endl;
+                    }
+                } else {
+                    std::cout << "El objeto " << partes[3] << " no ha sido cargado en memoria" << std::endl;
                 }
             }
         } else if (partes.size() == 5) {
