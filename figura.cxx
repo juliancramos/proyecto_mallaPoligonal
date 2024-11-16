@@ -125,26 +125,6 @@ int Figura::getNAristasFigura() const {
     nAristas=nVertices+nCaras-2;
     return nAristas;
 }
-//Este metodo calcula la distancia euclidiana para todas las aristas de la figura
-void Figura::calcularDistancias() {
-    for (Cara& cara : caras) {
-        for (Arista& arista : cara.getAristas()) {
-            int v1 = arista.getVertice1();
-            int v2 = arista.getVertice2();
-
-            // Obtener los vértices de la figura
-            Vertice vertice1 = buscarVerticePorIndice(v1);
-            Vertice vertice2 = buscarVerticePorIndice(v2);
-
-            // Calcular la distancia
-            float distancia = vertice1.calcularDistancia(vertice2.getX(), vertice2.getY(), vertice2.getZ());
-
-            // Establecer la distancia en la arista
-            arista.setDistancia(distancia);
-        }
-    }
-}
-
 
 
 Vertice Figura::verticeCercano(float px, float py, float pz) const {
@@ -157,13 +137,39 @@ Vertice Figura::verticeCercano(float px, float py, float pz) const {
     return arbolVertices->verticeCercano(px, py, pz, 0, mejorDistancia);
 }
 
+//Este metodo calcula la distancia euclidiana para todas las aristas de la figura
+void Figura::calcularDistancias() {
+    // Recorrer todas las caras
+    for (auto& cara : caras) {
+        // Recorrer todas las aristas de cada cara
+        for (auto& arista : cara.getAristas()) {
+            // Verificar si la distancia es -1 (no se ha calculado aún ya que por defecto es -1)
+            if (arista.getDistancia() == -1.0f) {
+                int origen = arista.getVertice1();
+                int destino = arista.getVertice2();
+
+                // Obtener los vértices  usando los índices
+                Vertice verticeOrigen = buscarVerticePorIndice(origen);
+                Vertice verticeDestino = buscarVerticePorIndice(destino);
+
+                // Calcular la distancia euclidiana
+                float distancia = verticeOrigen.calcularDistancia(verticeDestino.getX(), verticeDestino.getY(), verticeDestino.getZ());
+
+                arista.setDistancia(distancia);
+            }
+        }
+    }
+}
+
+
+
 void Figura::llenarGrafo() {
     std::set<std::pair<int, int>> aristasUnicas; // Para almacenar aristas únicas (set para que no se repitan)
 
     for (Cara& c : caras) {
         std::deque<Arista> aristas = c.getAristas();
         for (Arista& a : aristas) {
-            int v1 = a.getVertice1(); // Obtiene los índices de la arista
+            int v1 = a.getVertice1(); // Obtiene los índices de los vertices en la arista
             int v2 = a.getVertice2();
 
             // para asegurarse de que (v1, v2) y (v2, v1) sean consideradas la misma arista
@@ -184,6 +190,7 @@ void Figura::llenarGrafo() {
         }
     }
 }
+
 
 
 

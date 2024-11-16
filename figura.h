@@ -29,7 +29,7 @@ class Figura{
         int getNCaras() const;
         int getNVertices() const;
         int getNAristasFigura() const;
-        void calcularDistancias();
+
 
         std::deque<Vertice> envolventeObjeto();//En la posición 0 se encuentra el vertice mayor y en la 1 el menor
 
@@ -37,10 +37,13 @@ class Figura{
         static Figura construirCajaEnvolvente(const std::deque<Vertice>& vertices, const std::string& nombreObjeto);
 
         Vertice verticeCercano(float px, float py, float pz) const;
+        void calcularDistancias();
 
         void llenarGrafo();
 
         Grafo<int> getGrafo() const;
+
+
 };
 #endif
 
