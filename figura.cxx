@@ -45,6 +45,14 @@ std::deque<Vertice> Figura::envolventeObjeto() {
     return envolvente;
 }
 
+Vertice Figura::getCentroide() const {
+    return centroide;
+}
+
+void Figura::setCentroide(const Vertice &centroide) {
+    this->centroide = centroide;
+}
+
 Figura Figura::construirCajaEnvolvente(const std::deque<Vertice>& vertices, const std::string& nombreObjeto){
     float mayorX=vertices[0].getX(), menorX=vertices[1].getX();
     float mayorY=vertices[0].getY(), menorY=vertices[1].getY();
@@ -217,7 +225,36 @@ std::pair<std::vector<int>, float> Figura::calcularRutaMasCorta(int indiceOrigen
 
     return {ruta, distanciaTotal};
 }
+//Calcula y retorna el vertice centroide
+Vertice Figura::calcularCentroide() {
+    if (arbolVertices->esVacio()) {
+        throw std::runtime_error("La figura no contiene vértices.");
+    }
 
+    std::deque<Vertice> vertices = arbolVertices->preOrden();
+    float sumaX = 0, sumaY = 0, sumaZ = 0;
+    int totalVertices = vertices.size();
+
+    for (const auto& vertice : vertices) {
+        sumaX += vertice.getX();
+        sumaY += vertice.getY();
+        sumaZ += vertice.getZ();
+    }
+
+    // Se calcula mediante las coordenadas promedio
+    float centroX = sumaX / totalVertices;
+    float centroY = sumaY / totalVertices;
+    float centroZ = sumaZ / totalVertices;
+
+    // Crear el vértice centroide
+    Vertice centroide(centroX, centroY, centroZ, -2); //centroide con indice -2
+
+    return centroide;
+}
+
+void Figura::agregarAristaGrafo(int nodo1, int nodo2, double peso) {
+    grafoIndices.agregarArista(nodo1, nodo2, peso);
+}
 
 
 
