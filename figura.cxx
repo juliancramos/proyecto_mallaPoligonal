@@ -252,6 +252,10 @@ Vertice Figura::calcularCentroide() {
     return centroide;
 }
 
+void Figura::agregarAristaGrafo(int nodo1, int nodo2, double peso) {
+    grafoIndices.agregarArista(nodo1, nodo2, peso);
+}
+
 
 
 

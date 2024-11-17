@@ -47,6 +47,7 @@ class Figura{
         void llenarGrafo();
 
         Grafo<int> getGrafo() const;
+        void agregarAristaGrafo(int nodo1, int nodo2, double peso);
 
         std::pair<std::vector<int>, float>calcularRutaMasCorta(int indiceOrigen, int indiceDestino);
         Vertice calcularCentroide();

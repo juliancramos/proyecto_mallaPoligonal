@@ -144,10 +144,13 @@ int main() {
                             Vertice vertice1 = figura->buscarVerticePorIndice(indice1);
                             Vertice v = figura->calcularCentroide();
                             if(v.getIndice()==-2) { //Dado que -2 es el indice que se le asigna al centroide
-                                std::cout<<"Centroide: "<<v.getX()<<" "<<v.getY()<<" "<<v.getZ()<<" Indice: "<<v.getIndice()<<std::endl;
                                 figura->setCentroide(v);
-                                std::cout<<"Centroide del vertice (solo para ver desde la figura)"<<std::endl;
-                                std::cout<<figura->getCentroide().getX()<<" "<<figura->getCentroide().getY()<<" "<<figura->getCentroide().getZ()<<" "<<std::endl;
+                                //std::cout<<figura->getCentroide().getX()<<" "<<figura->getCentroide().getY()<<" "<<figura->getCentroide().getZ()<<" "<<std::endl;
+                                //Una vez hallado el centroide se busca el vertice más cercano
+                                Vertice cercano = figura->verticeCercano(v.getX(),v.getY(),v.getZ());
+                                double distancia = v.calcularDistancia(cercano.getX(),cercano.getY(),cercano.getZ());
+                                figura->agregarAristaGrafo(cercano.getIndice(), v.getIndice(), distancia);
+                                figura->getGrafo().mostrarGrafo();
                             }
                         }catch (const std::runtime_error& e) {
                             std::cerr << e.what()  << std::endl;
