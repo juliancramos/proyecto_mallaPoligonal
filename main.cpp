@@ -92,34 +92,34 @@ int main() {
             } else if (comando == "v_cercanos_caja") {
                 try{
                     Figura* figura= malla.getFigura(partes[1]);
-                    
+
 
                     if(figura!=nullptr){
-                      Figura figEnvolvente = malla.envolventeObjeto(partes[1]);
-                      std::deque<Vertice> preFigEnvolvente = figEnvolvente.getVertices()->preOrden();
+                        Figura figEnvolvente = malla.envolventeObjeto(partes[1]);
+                        std::deque<Vertice> preFigEnvolvente = figEnvolvente.getVertices()->preOrden();
 
 
-                    if(preFigEnvolvente.size()>0){
-                     
+                        if(preFigEnvolvente.size()>0){
 
-                      std::deque<Vertice> verticesCercanos = malla.v_cercanos_caja(figura, preFigEnvolvente);
-                      std::cout << "Los vértices del objeto \"" << partes[1] << "\" más cercanos a las esquinas de su caja envolvente son:\n"<<std::endl;
-                      std::cout<<"Esquina\t\t\t\t\tVertice\t\t\t\t\t\t\t\t\tDistancia"<<std::endl;
-                      for(int i=0; i<preFigEnvolvente.size();i++){
-                        std::cout<<preFigEnvolvente[i]<<"\t\t"<<verticesCercanos[i]<<"\t\t\t\t"<<
-                            verticesCercanos[i].calcularDistancia(preFigEnvolvente[i].getX(),preFigEnvolvente[i].getY(),preFigEnvolvente[i].getZ())<<std::endl;
-                      }
+
+                            std::deque<Vertice> verticesCercanos = malla.v_cercanos_caja(figura, preFigEnvolvente);
+                            std::cout << "Los vértices del objeto \"" << partes[1] << "\" más cercanos a las esquinas de su caja envolvente son:\n"<<std::endl;
+                            std::cout<<"Esquina\t\t\t\t\tVertice\t\t\t\t\t\t\t\t\tDistancia"<<std::endl;
+                            for(int i=0; i<preFigEnvolvente.size();i++){
+                                std::cout<<preFigEnvolvente[i]<<"\t\t"<<verticesCercanos[i]<<"\t\t\t\t"<<
+                                    verticesCercanos[i].calcularDistancia(preFigEnvolvente[i].getX(),preFigEnvolvente[i].getY(),preFigEnvolvente[i].getZ())<<std::endl;
+                            }
+                        }
+                    }else{
+                        std::cout<<"La figura no se encuentra en la malla"<<std::endl;
                     }
-                  }else{
-                    std::cout<<"La figura no se encuentra en la malla"<<std::endl;
-                  }
-                  
+
                 }catch(const std::exception &e){
-                  std::cerr << "Error al generar el envolvente del objeto: " << e.what() << std::endl;
+                    std::cerr << "Error al generar el envolvente del objeto: " << e.what() << std::endl;
                 }
-                
-                
-                
+
+
+
 
             } else if (comando == "ayuda") {
                 Sistema::ayuda(partes[1]);
@@ -134,81 +134,98 @@ int main() {
                 } catch (const std::exception &e) {
                     std::cerr << "Error al guardar el objeto: " << e.what() << std::endl;
                 }
-            }else if(partes.size() == 3){
-                if(comando == "ruta_corta_centro"){
-                    
-                }
-            }
-            else {
-                cout << "El comando \"" << comando << "\" no es válido" << endl;
-            }
-        } else if (partes.size() == 4) {
-            if (comando == "v_cercano") {
-                try {
-                    Figura fig = malla.verticeCercano(stof(partes[1]), stof(partes[2]), stof(partes[3]));
-                    float mejorDistancia = -1;
-                    Vertice v = fig.getVertices()->verticeCercano(stof(partes[1]), stof(partes[2]), stof(partes[3]), 0, mejorDistancia);
-                    float distancia = v.calcularDistancia(stof(partes[1]), stof(partes[2]), stof(partes[3]));
-                    std::cout << "El vértice " << v.getIndice() << " (" << v.getX() << ", " << v.getY() << ", " << v.getZ() 
-                              << ") del objeto " << fig.getNombre() << " es el más cercano al punto ("
-                              << partes[1] << ", " << partes[2] << ", " << partes[3] << "), a una distancia de "
-                              << distancia << "." << std::endl;
-                } catch (const std::runtime_error& e) {
-                    std::cerr << e.what() << "\n" << std::endl;
-                }
-            }else if (comando == "ruta_corta") {
-                Figura* figura = malla.getFigura(partes[3]);
-                if (figura != nullptr) {
-                    if (partes[1] != partes[2]) {  // Verificar que los vértices no sean iguales
+            }else if (partes.size() == 3) {
+                if (comando == "ruta_corta_centro") {
+                    Figura* figura = malla.getFigura(partes[2]);
+                    if (figura != nullptr) {
+                        int indice1 = std::stoi(partes[1]);
+                        // Intentar buscar el vertice
                         try {
-                            // Convertir los índices de las cadenas a enteros para buscarlos por el índice
-                            int indice1 = std::stoi(partes[1]);
-                            int indice2 = std::stoi(partes[2]);
-
-                            // Intentar buscar los vértices, lanzará excepción si no se encuentran
                             Vertice vertice1 = figura->buscarVerticePorIndice(indice1);
-                            Vertice vertice2 = figura->buscarVerticePorIndice(indice2);
-
-                            // Si ambos vértices existen, se llama a la función para calcular la ruta
-                            auto resultado = figura->calcularRutaMasCorta(indice1, indice2);
-                            std::cout << "La ruta más corta que conecta los vértices " << indice1 << " y " << indice2
-                          << " del objeto " << partes[3] << " pasa por: ";
-                            for (int indice : resultado.first) {
-                                std::cout << indice << " ";
+                            Vertice v = figura->calcularCentroide();
+                            if(v.getIndice()==-2) { //Dado que -2 es el indice que se le asigna al centroide
+                                std::cout<<"Centroide: "<<v.getX()<<" "<<v.getY()<<" "<<v.getZ()<<" Indice: "<<v.getIndice()<<std::endl;
+                                figura->setCentroide(v);
+                                std::cout<<"Centroide del vertice (solo para ver desde la figura)"<<std::endl;
+                                std::cout<<figura->getCentroide().getX()<<" "<<figura->getCentroide().getY()<<" "<<figura->getCentroide().getZ()<<" "<<std::endl;
                             }
-                            std::cout << "; con una longitud de " << resultado.second << "." << std::endl;
-
-                        } catch (const std::runtime_error& e) {
-                            std::cerr << "Error: " << e.what() << "\n";
+                        }catch (const std::runtime_error& e) {
+                            std::cerr << e.what()  << std::endl;
                         }
                     } else {
-                        std::cout << "Los índices de los vértices dados son iguales." << std::endl;
+                        std::cout << "El objeto " << partes[2] << " no ha sido cargado en memoria" << std::endl;
                     }
                 } else {
-                    std::cout << "El objeto " << partes[3] << " no ha sido cargado en memoria" << std::endl;
+                    cout << "El comando \"" << comando << "\" no es válido" << endl;
                 }
-            }
-        } else if (partes.size() == 5) {
-            if (comando == "v_cercano") {
-                float x = stof(partes[1]);
-                float y = stof(partes[2]);
-                float z = stof(partes[3]);
-                std::string nombreFigura = partes[4];
-                Vertice v = malla.verticeCercanoObjeto(x, y, z, nombreFigura);
-                float distancia = v.calcularDistancia(stof(partes[1]), stof(partes[2]), stof(partes[3]));
-                if (v.getIndice() != -1) {
-                    std::cout << "El vertice " << v.getIndice() << " (" << v.getX() << ", " << v.getY() << ", " << v.getZ() 
-                              << ") del objeto " << nombreFigura << ", es el más cercano al punto ("
-                              << partes[1] << ", " << partes[2] << ", " << partes[3] << "), a una distancia de "
-                              << distancia << "." << std::endl;
+            }else if (partes.size() == 4) {
+                if (comando == "v_cercano") {
+                    try {
+                        Figura fig = malla.verticeCercano(stof(partes[1]), stof(partes[2]), stof(partes[3]));
+                        float mejorDistancia = -1;
+                        Vertice v = fig.getVertices()->verticeCercano(stof(partes[1]), stof(partes[2]), stof(partes[3]), 0, mejorDistancia);
+                        float distancia = v.calcularDistancia(stof(partes[1]), stof(partes[2]), stof(partes[3]));
+                        std::cout << "El vértice " << v.getIndice() << " (" << v.getX() << ", " << v.getY() << ", " << v.getZ()
+                                  << ") del objeto " << fig.getNombre() << " es el más cercano al punto ("
+                                  << partes[1] << ", " << partes[2] << ", " << partes[3] << "), a una distancia de "
+                                  << distancia << "." << std::endl;
+                    } catch (const std::runtime_error& e) {
+                        std::cerr << e.what() << "\n" << std::endl;
+                    }
+                }else if (comando == "ruta_corta") {
+                    Figura* figura = malla.getFigura(partes[3]);
+                    if (figura != nullptr) {
+                        if (partes[1] != partes[2]) {  // Verificar que los vértices no sean iguales
+                            try {
+                                // Convertir los índices de las cadenas a enteros para buscarlos por el índice
+                                int indice1 = std::stoi(partes[1]);
+                                int indice2 = std::stoi(partes[2]);
+
+                                // Intentar buscar los vértices, lanzará excepción si no se encuentran
+                                Vertice vertice1 = figura->buscarVerticePorIndice(indice1);
+                                Vertice vertice2 = figura->buscarVerticePorIndice(indice2);
+
+                                // Si ambos vértices existen, se llama a la función para calcular la ruta
+                                auto resultado = figura->calcularRutaMasCorta(indice1, indice2);
+                                std::cout << "La ruta más corta que conecta los vértices " << indice1 << " y " << indice2
+                              << " del objeto " << partes[3] << " pasa por: ";
+                                for (int indice : resultado.first) {
+                                    std::cout << indice << " ";
+                                }
+                                std::cout << "; con una longitud de " << resultado.second << "." << std::endl;
+
+                            } catch (const std::runtime_error& e) {
+                                std::cerr << "Error: " << e.what() << "\n";
+                            }
+                        } else {
+                            std::cout << "Los índices de los vértices dados son iguales." << std::endl;
+                        }
+                    } else {
+                        std::cout << "El objeto " << partes[3] << " no ha sido cargado en memoria" << std::endl;
+                    }
+                }
+            } else if (partes.size() == 5) {
+                if (comando == "v_cercano") {
+                    float x = stof(partes[1]);
+                    float y = stof(partes[2]);
+                    float z = stof(partes[3]);
+                    std::string nombreFigura = partes[4];
+                    Vertice v = malla.verticeCercanoObjeto(x, y, z, nombreFigura);
+                    float distancia = v.calcularDistancia(stof(partes[1]), stof(partes[2]), stof(partes[3]));
+                    if (v.getIndice() != -1) {
+                        std::cout << "El vertice " << v.getIndice() << " (" << v.getX() << ", " << v.getY() << ", " << v.getZ()
+                                  << ") del objeto " << nombreFigura << ", es el más cercano al punto ("
+                                  << partes[1] << ", " << partes[2] << ", " << partes[3] << "), a una distancia de "
+                                  << distancia << "." << std::endl;
+                    } else {
+                        std::cout << "No se encontró ningún vértice cercano." << std::endl;
+                    }
                 } else {
-                    std::cout << "No se encontró ningún vértice cercano." << std::endl;
+                    std::cout << "El comando \"" << comando << "\" no es válido" << std::endl;
                 }
             } else {
-                std::cout << "El comando \"" << comando << "\" no es válido" << std::endl;
+                std::cout << "Error: Comando no reconocido" << std::endl;
             }
-        } else {
-            std::cout << "Error: Comando no reconocido" << std::endl;
         }
     }
 }

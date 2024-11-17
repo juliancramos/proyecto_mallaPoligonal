@@ -4,7 +4,7 @@
 #include "ArbolKD.h"
 #include "Grafo.h"
 #include "vertice.h"
-
+#include <cmath>
 #include <string>
 #include <deque>
 
@@ -15,6 +15,7 @@ class Figura{
         std::deque<Cara> caras;
         ArbolKD<Vertice>* arbolVertices= new ArbolKD<Vertice>();
         Grafo <int> grafoIndices; //Grafo que almacena los indices de los vertices
+        Vertice centroide;
     public:
 
         Figura (const std::string & n);
@@ -30,6 +31,10 @@ class Figura{
         int getNVertices() const;
         int getNAristasFigura() const;
 
+        Vertice getCentroide() const;
+
+        void setCentroide(const Vertice &centroide);
+
 
         std::deque<Vertice> envolventeObjeto();//En la posición 0 se encuentra el vertice mayor y en la 1 el menor
 
@@ -44,6 +49,7 @@ class Figura{
         Grafo<int> getGrafo() const;
 
         std::pair<std::vector<int>, float>calcularRutaMasCorta(int indiceOrigen, int indiceDestino);
+        Vertice calcularCentroide();
 };
 #endif
 
