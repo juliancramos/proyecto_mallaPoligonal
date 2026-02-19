@@ -1,12 +1,24 @@
-cubo.txt
-envolventeCube.txt
-envolventePyramid.txt
-salidaCubo.txt
+# Ejecutables
+malla_poligonal
+malla_poligonal.exe
 p
+p.exe
 
-*.json
-.vscode/settings.json
+# Archivos de salida generados
+*.out
 
+# IDE
+.vscode/
 .idea/
+
+# Build
 build/
 cmake-build-debug/
+cmake-build-release/
+
+# Archivos de objeto
+*.o
+*.obj
+
+# JSON
+*.json
